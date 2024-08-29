@@ -13,3 +13,33 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
+.field {
+	width: 100%;
+	background-color: #ffffff;
+	border: 1px solid #efefef;
+	border-radius: 4px;
+	padding: 8px 12px;
+
+	&:focus {
+		border-color: #dbdbdb;
+	}
+}
+
+.button {
+	cursor: pointer;
+	background-color: #4dd599;
+	border-radius: 4px;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	transition: 0.3s all ease;
+
+	&:hover {
+		background-color: darken(#4dd599, 5%);
+	}
+
+	&:active {
+		background-color: darken(#4dd599, 10%);
+	}
+}

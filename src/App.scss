@@ -1,20 +1,32 @@
 .todo {
+	margin: 40px;
 	position: absolute;
+	display: flex;
 	left: 50%;
-	top: 50%;
-	width: 500px;
-	height: 530px;
-	transform: translate(-50%, -50%);
+	// top: 50%;
+	// width: 500px;
+	width: 80%;
+	// min-height: 530px;
+	transform: translate(-50%);
 	box-shadow: 1px 2px 10px #ebebeb;
 	border-radius: 10px;
 	border: 1px solid #f1f1f1;
 	font-size: 14px;
 
 	&__sidebar {
-		width: 200px;
+		display: flex;
+		flex-direction: column;
+		width: 40%;
 		height: 100%;
 		background-color: #f4f6f8;
 		border-right: 1px solid #f1f1f1;
+		padding: 60px 20px 20px;
+		border-radius: 9px 0 0 9px;
+	}
+
+	&__tasks {
+		width: 60%;
+		height: 100%;
 		padding: 60px 20px;
 	}
 }
