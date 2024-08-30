@@ -1,28 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import List from '../List/List';
 import Badge from '../Badge/Badge';
 
 import CloseSvg from '../../assets/img/close.svg';
 import './AddListButton.scss';
 
-function AddListButton({ colors, onAddList }) {
+function AddListButton({ colors, onAddNewList }) {
 	const [visiblePopup, setVisiblePopup] = useState(false);
-	const [selectedColor, setSelectedColor] = useState(colors[0].id);
+	const [selectedColor, setSelectedColor] = useState(3);
 	const [inputValue, setInputValue] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
-	const addList = () => {
+	useEffect(() => {
+		if (Array.isArray(colors)) {
+			setSelectedColor(colors[0].id);
+		}
+	}, [colors]);
+
+	const addNewList = () => {
 		if (!inputValue) {
 			alert('Ведіть назву списку задач');
 			return;
 		}
-		onAddList({
-			id: Math.random(),
-			name: inputValue,
-			colorId: selectedColor,
-			color: colors.find(color => color.id === selectedColor).name,
-		});
-		closePopup();
-		console.log('List added');
+		setIsLoading(true);
+
+		axios
+			.post('http://localhost:3001/lists', {
+				name: inputValue,
+				colorId: selectedColor,
+			})
+			.then(({ data }) => {
+				const color = colors.filter(c => c.id === selectedColor)[0];
+				const newList = { ...data, color };
+				onAddNewList(newList);
+				closePopup();
+			})
+			.catch(() => {
+				alert('Помилка під час додавання списку!');
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	};
 
 	const closePopup = () => {
@@ -93,8 +113,8 @@ function AddListButton({ colors, onAddList }) {
 							/>
 						))}
 					</div>
-					<button onClick={addList} className='button'>
-						Добавити
+					<button onClick={addNewList} className='button'>
+						{isLoading ? 'Додавання...' : 'Добавити'}
 					</button>
 				</div>
 			)}

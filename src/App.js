@@ -1,28 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import List from './components/List/List';
-import Tasks from './components/Tasks/Tasks';
 import AddListButton from './components/AddListButton/AddListButton';
+import Tasks from './components/Tasks/Tasks';
 
-import DB from './assets/db.json';
+// import DB from './assets/db.json';
 
 import './App.scss';
 
 function App() {
-	const [lists, setLists] = useState(
-		DB.lists.map(item => {
-			item.color = DB.colors.find(color => color.id === item.colorId).name;
-			return item;
-		})
-	);
+	const [lists, setLists] = useState(null);
+	const [colors, setColors] = useState(null);
 
-	const onAddList = newList => {
+	useEffect(() => {
+		axios
+			.get('http://localhost:3001/lists?_expand=color&_embed=tasks')
+			.then(({ data }) => {
+				setLists(data);
+			});
+
+		axios.get('http://localhost:3001/colors').then(({ data }) => {
+			setColors(data);
+		});
+	}, []);
+
+	const onAddNewList = newList => {
 		const updatedList = [...lists, newList];
 		setLists(updatedList);
 	};
 
-	// const onRemove = id => {
-	// 	console.log(id);
-	// };
+	const onRemove = id => {
+		const updatedList = lists.filter(item => item.id !== id);
+		setLists(updatedList);
+	};
 
 	return (
 		<div className='todo'>
@@ -49,12 +59,14 @@ function App() {
 						},
 					]}
 				/>
-				<List items={lists} onRemove={it => console.log(it)} isRemovable />
-				<AddListButton onAddList={onAddList} colors={DB.colors} />
+				{lists ? (
+					<List items={lists} onRemove={onRemove} isRemovable />
+				) : (
+					'Загрузка'
+				)}
+				<AddListButton onAddNewList={onAddNewList} colors={colors} />
 			</div>
-			<div className='todo__tasks'>
-				<Tasks />
-			</div>
+			<div className='todo__tasks'>{lists && <Tasks list={lists[1]} />}</div>
 		</div>
 	);
 }
