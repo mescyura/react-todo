@@ -1,0 +1,40 @@
+.add-task {
+	padding: 12px 0;
+
+	&__new-task {
+		cursor: pointer;
+		padding: 8px 2px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		// transition: 0.5s all ease;
+
+		path,
+		span {
+			stroke: #868686;
+			color: #868686;
+			transition: 0.5s all ease;
+		}
+
+		span {
+			font-size: 16px;
+			line-height: 20px;
+		}
+
+		&:hover {
+			path {
+				stroke: #4e4e4e;
+			}
+
+			span {
+				color: #4e4e4e;
+			}
+		}
+	}
+
+	&__form {
+		.field {
+			margin-bottom: 10px;
+		}
+	}
+}

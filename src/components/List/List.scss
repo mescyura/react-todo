@@ -36,14 +36,16 @@
 		fill: #7c7c7c;
 	}
 
-	span {
-		flex: 1;
+	&__text {
+		flex-grow: 1;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
-	span span {
+	&__count {
+		font-size: 12px;
+		flex-grow: 0;
 		color: #7c7c7c;
 	}
 

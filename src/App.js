@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
 import List from './components/List/List';
 import AddListButton from './components/AddListButton/AddListButton';
 import Tasks from './components/Tasks/Tasks';
@@ -11,6 +12,7 @@ import './App.scss';
 function App() {
 	const [lists, setLists] = useState(null);
 	const [colors, setColors] = useState(null);
+	const [activeItem, setactiveItem] = useState(null);
 
 	useEffect(() => {
 		axios
@@ -29,8 +31,28 @@ function App() {
 		setLists(updatedList);
 	};
 
-	const onRemove = id => {
+	const onRemoveList = id => {
 		const updatedList = lists.filter(item => item.id !== id);
+		setLists(updatedList);
+	};
+
+	const onAddNewTask = (listId, newTask) => {
+		const updatedList = lists.map(item => {
+			if (item.id === listId) {
+				item.tasks = [...item.tasks, newTask];
+			}
+			return item;
+		});
+		setLists(updatedList);
+	};
+
+	const onEditListTitle = (id, newTitle) => {
+		const updatedList = lists.map(item => {
+			if (item.id === id) {
+				item.name = newTitle;
+			}
+			return item;
+		});
 		setLists(updatedList);
 	};
 
@@ -40,6 +62,7 @@ function App() {
 				<List
 					items={[
 						{
+							// active: true,
 							icon: (
 								<svg
 									width='18'
@@ -55,18 +78,31 @@ function App() {
 								</svg>
 							),
 							name: 'Список задач',
-							active: true,
 						},
 					]}
 				/>
 				{lists ? (
-					<List items={lists} onRemove={onRemove} isRemovable />
+					<List
+						items={lists}
+						onRemoveList={onRemoveList}
+						onClickItem={item => setactiveItem(item)}
+						activeItem={activeItem}
+						isRemovable
+					/>
 				) : (
 					'Загрузка'
 				)}
 				<AddListButton onAddNewList={onAddNewList} colors={colors} />
 			</div>
-			<div className='todo__tasks'>{lists && <Tasks list={lists[1]} />}</div>
+			<div className='todo__tasks'>
+				{lists && activeItem && (
+					<Tasks
+						list={activeItem}
+						onAddNewTask={onAddNewTask}
+						onEditTitle={onEditListTitle}
+					/>
+				)}
+			</div>
 		</div>
 	);
 }

@@ -6,7 +6,7 @@
 		line-height: 39px;
 		color: #c9d1d3;
 
-		padding-bottom: 20px;
+		padding-bottom: 12px;
 		border-bottom: 1px solid #f2f2f2;
 
 		&:hover path {
@@ -66,6 +66,16 @@
 		flex-direction: column;
 	}
 
+	&__sub-title {
+		// text-align: center;
+		padding-top: 12px;
+		font-family: 'Montserrat', sans-serif;
+		font-weight: bold;
+		font-size: 24px;
+		// line-height: 39px;
+		color: #e8e8e8;
+	}
+
 	&__items-item:first-child {
 		padding: 12px 0 4px;
 	}
@@ -78,11 +88,6 @@
 		gap: 10px;
 
 		input {
-			flex: 1;
-			border: none;
-			font-size: 16px;
-		}
-		textarea {
 			flex: 1;
 			border: none;
 			font-size: 16px;
@@ -126,6 +131,32 @@
 			& svg path {
 				stroke: #fff;
 			}
+		}
+	}
+
+	&__form {
+		padding: 4px 0;
+		display: flex;
+		align-items: center;
+	}
+
+	&__form-new {
+		display: flex;
+		gap: 14px;
+
+		svg {
+			position: relative;
+			left: 2px;
+			top: 2px;
+
+			path {
+				stroke: #cccccc;
+			}
+		}
+
+		span {
+			color: #cccccc;
+			font-size: 16px;
 		}
 	}
 }

@@ -6,13 +6,18 @@ import Badge from '../Badge/Badge';
 
 import './List.scss';
 
-function List({ items, onClick, onRemove, isRemovable }) {
-	console.log(items);
-
+function List({
+	items,
+	onClick,
+	onClickItem,
+	activeItem,
+	onRemoveList,
+	isRemovable,
+}) {
 	const RemoveList = item => {
 		if (window.confirm('Видалити список?')) {
 			axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
-				onRemove(item.id);
+				onRemoveList(item.id);
 			});
 		}
 	};
@@ -21,16 +26,19 @@ function List({ items, onClick, onRemove, isRemovable }) {
 		<ul onClick={onClick} className='menu-list'>
 			{items.map((item, index) => (
 				<li
+					onClick={onClickItem ? () => onClickItem(item) : null}
 					key={index}
 					className={classNames(item.className, {
-						active: item.active ? 'active' : '',
+						active: item.active
+							? item.active
+							: activeItem && activeItem.id === item.id,
 					})}
 				>
 					{item.icon ? item.icon : <Badge color={item.color.name} />}
-					<span>
-						{item.name}
+					<p className='menu-list__text'>{item.name}</p>
+					<span className='menu-list__count'>
 						{item.tasks && item.tasks.length >= 0 ? (
-							<span> {item.tasks.length}</span>
+							<p> {item.tasks.length}</p>
 						) : (
 							''
 						)}

@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import classNames from 'classnames';
+import AddTaskForm from './AddTaskForm';
 
 import './Tasks.scss';
 
-function Tasks({ list }) {
+function Tasks({ list, onEditTitle, onAddNewTask }) {
+	const editTitle = () => {
+		const newTitle = window.prompt('Ведіть нову назву списку задач', list.name);
+		if (newTitle) {
+			onEditTitle(list.id, newTitle);
+			axios
+				.patch('http://localhost:3001/lists/' + list.id, {
+					name: newTitle,
+				})
+				.catch(() => alert('Не вдалося змінити назву списку'));
+		}
+	};
+
 	return (
 		<div className='tasks'>
 			<h2
@@ -13,6 +27,7 @@ function Tasks({ list }) {
 			>
 				{list.name}
 				<svg
+					onClick={editTitle}
 					className='tasks__title-edit'
 					width='15'
 					height='15'
@@ -27,6 +42,9 @@ function Tasks({ list }) {
 				</svg>
 			</h2>
 			<div className='tasks__items'>
+				{!list.tasks.length && (
+					<h1 className='tasks__sub-title'>Таски відсутні</h1>
+				)}
 				{list.tasks.map((task, index) => {
 					return (
 						<div key={task.id} className='tasks__items-item'>
@@ -54,6 +72,7 @@ function Tasks({ list }) {
 						</div>
 					);
 				})}
+				<AddTaskForm onAddNewTask={onAddNewTask} list={list} />
 			</div>
 		</div>
 	);

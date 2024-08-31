@@ -20,6 +20,7 @@ body {
 	border: 1px solid #efefef;
 	border-radius: 4px;
 	padding: 8px 12px;
+	font-size: 14px;
 
 	&:focus {
 		border-color: #dbdbdb;
@@ -33,7 +34,22 @@ body {
 	color: #fff;
 	padding: 10px 20px;
 	border: none;
+	font-size: 14px;
 	transition: 0.3s all ease;
+
+	&--grey {
+		margin-left: 10px;
+		color: #868686;
+		background-color: #f4f6f8;
+
+		&:hover {
+			background-color: darken(#f4f6f8, 5%) !important;
+		}
+
+		&:active {
+			background-color: darken(#f4f6f8, 10%) !important;
+		}
+	}
 
 	&:hover {
 		background-color: darken(#4dd599, 5%);
