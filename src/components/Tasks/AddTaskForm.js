@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Service from '../../services/Service';
 
 import './AddTaskForm.scss';
 
@@ -22,8 +22,7 @@ function AddTaskForm({ list, onAddNewTask }) {
 
 		setIsLoading(true);
 
-		axios
-			.post('http://localhost:3001/tasks', newTask)
+		Service.addTask(newTask)
 			.then(({ data }) => {
 				onAddNewTask(list.id, data);
 				closeForm();

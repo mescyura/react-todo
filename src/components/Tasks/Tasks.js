@@ -1,6 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import classNames from 'classnames';
+
+import Service from '../../services/Service';
+
 import AddTaskForm from './AddTaskForm';
 
 import './Tasks.scss';
@@ -11,11 +13,9 @@ function Tasks({ list, onEditTitle, onAddNewTask }) {
 		const newTitle = window.prompt('Ведіть нову назву списку задач', list.name);
 		if (newTitle) {
 			onEditTitle(list.id, newTitle);
-			axios
-				.patch('http://localhost:3001/lists/' + list.id, {
-					name: newTitle,
-				})
-				.catch(() => alert('Не вдалося змінити назву списку'));
+			Service.editListTitle(list.id, {
+				name: newTitle,
+			}).catch(() => alert('Не вдалося змінити назву списку'));
 		}
 	};
 

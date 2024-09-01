@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
+import Service from '../../services/Service';
 
 import List from '../List/List';
 import Badge from '../Badge/Badge';
@@ -27,11 +28,12 @@ function AddListButton({ colors, onAddNewList }) {
 		}
 		setIsLoading(true);
 
-		axios
-			.post('http://localhost:3001/lists', {
-				name: inputValue,
-				colorId: selectedColor,
-			})
+		const newList = {
+			name: inputValue,
+			colorId: selectedColor,
+		};
+
+		Service.addList(newList)
 			.then(({ data }) => {
 				const color = colors.filter(c => c.id === selectedColor)[0];
 				const newList = { ...data, color, tasks: [] };

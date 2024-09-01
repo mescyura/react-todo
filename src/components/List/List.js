@@ -1,5 +1,6 @@
 import React from 'react';
-import axios from 'axios';
+
+import Service from '../../services/Service';
 
 import classNames from 'classnames';
 import Badge from '../Badge/Badge';
@@ -16,7 +17,7 @@ function List({
 }) {
 	const RemoveList = item => {
 		if (window.confirm('Видалити список?')) {
-			axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
+			Service.removeList(item.id).then(() => {
 				onRemoveList(item.id);
 			});
 		}

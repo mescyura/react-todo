@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
+import Service from './services/Service';
 
 import List from './components/List/List';
 import AddListButton from './components/AddListButton/AddListButton';
@@ -16,13 +17,11 @@ function App() {
 	console.log(lists);
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:3001/lists?_expand=color&_embed=tasks')
-			.then(({ data }) => {
-				setLists(data);
-			});
+		Service.getLists().then(({ data }) => {
+			setLists(data);
+		});
 
-		axios.get('http://localhost:3001/colors').then(({ data }) => {
+		Service.getColors().then(({ data }) => {
 			setColors(data);
 		});
 	}, []);
