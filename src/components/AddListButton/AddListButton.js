@@ -6,6 +6,7 @@ import Badge from '../Badge/Badge';
 
 import CloseSvg from '../../assets/img/close.svg';
 import './AddListButton.scss';
+import '../../colors.scss';
 
 function AddListButton({ colors, onAddNewList }) {
 	const [visiblePopup, setVisiblePopup] = useState(false);
@@ -33,7 +34,7 @@ function AddListButton({ colors, onAddNewList }) {
 			})
 			.then(({ data }) => {
 				const color = colors.filter(c => c.id === selectedColor)[0];
-				const newList = { ...data, color };
+				const newList = { ...data, color, tasks: [] };
 				onAddNewList(newList);
 				closePopup();
 			})

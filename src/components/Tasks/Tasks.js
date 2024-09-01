@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 import AddTaskForm from './AddTaskForm';
 
 import './Tasks.scss';
+import '../../colors.scss';
 
 function Tasks({ list, onEditTitle, onAddNewTask }) {
 	const editTitle = () => {
@@ -22,7 +23,7 @@ function Tasks({ list, onEditTitle, onAddNewTask }) {
 		<div className='tasks'>
 			<h2
 				className={classNames('tasks__title', {
-					[`tasks__title--${list.color.name}`]: list.color.name,
+					[`color--${list.color.name}`]: list.color.name,
 				})}
 			>
 				{list.name}

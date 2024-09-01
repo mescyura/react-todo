@@ -22,6 +22,11 @@
 		border-right: 1px solid #f1f1f1;
 		padding: 60px 20px 20px;
 		border-radius: 9px 0 0 9px;
+
+		&--lists-loading {
+			color: #868686;
+			margin: 0 0 30px 20px;
+		}
 	}
 
 	&__tasks {

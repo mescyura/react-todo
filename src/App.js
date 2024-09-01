@@ -13,6 +13,7 @@ function App() {
 	const [lists, setLists] = useState(null);
 	const [colors, setColors] = useState(null);
 	const [activeItem, setactiveItem] = useState(null);
+	console.log(lists);
 
 	useEffect(() => {
 		axios
@@ -90,8 +91,9 @@ function App() {
 						isRemovable
 					/>
 				) : (
-					'Загрузка'
+					<p className='todo__sidebar--lists-loading'>Загрузка..</p>
 				)}
+
 				<AddListButton onAddNewList={onAddNewList} colors={colors} />
 			</div>
 			<div className='todo__tasks'>
