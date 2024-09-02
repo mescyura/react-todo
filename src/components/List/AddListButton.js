@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Service from '../../services/Service';
 
-import List from '../List/List';
+import List from './List';
 import Badge from '../Badge/Badge';
 
 import CloseSvg from '../../assets/img/close.svg';

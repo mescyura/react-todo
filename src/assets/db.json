@@ -19,11 +19,6 @@
       "name": "Покупки",
       "colorId": 6,
       "id": 4
-    },
-    {
-      "name": "FPVVVV",
-      "colorId": 4,
-      "id": 5
     }
   ],
   "tasks": [
@@ -89,16 +84,10 @@
       "id": 11
     },
     {
-      "listId": 5,
-      "text": "llll",
+      "listId": 4,
+      "text": "масло",
       "completed": false,
       "id": 12
-    },
-    {
-      "listId": 4,
-      "text": "maslo",
-      "completed": false,
-      "id": 13
     }
   ],
   "colors": [

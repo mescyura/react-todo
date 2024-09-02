@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
+import { Route, useHistory } from 'react-router-dom';
 import Service from './services/Service';
 
 import List from './components/List/List';
-import AddListButton from './components/AddListButton/AddListButton';
+import AddListButton from './components/List/AddListButton';
 import Tasks from './components/Tasks/Tasks';
 
 // import DB from './assets/db.json';
@@ -13,8 +13,8 @@ import './App.scss';
 function App() {
 	const [lists, setLists] = useState(null);
 	const [colors, setColors] = useState(null);
-	const [activeItem, setactiveItem] = useState(null);
-	console.log(lists);
+	const [activeItem, setActiveItem] = useState(null);
+	let history = useHistory();
 
 	useEffect(() => {
 		Service.getLists().then(({ data }) => {
@@ -25,6 +25,26 @@ function App() {
 			setColors(data);
 		});
 	}, []);
+
+	// useEffect(() => {
+	// 	const listId = history.location.pathname.split('lists/')[1];
+	// 	console.log(history.location.pathname);
+
+	// 	if (lists) {
+	// 		const list = lists.find(list => list.id === Number(listId));
+	// 		setActiveItem(list);
+	// 	}
+	// }, [lists, history.location.pathname]);
+
+	useEffect(() => {
+		return history.listen(location => {
+			const listId = history.location.pathname.split('lists/')[1];
+			if (lists) {
+				const list = lists.find(list => list.id === Number(listId));
+				setActiveItem(list);
+			}
+		});
+	}, [lists, history]);
 
 	const onAddNewList = newList => {
 		const updatedList = [...lists, newList];
@@ -60,6 +80,7 @@ function App() {
 		<div className='todo'>
 			<div className='todo__sidebar'>
 				<List
+					onClickItem={list => history.push(`/`)}
 					items={[
 						{
 							// active: true,
@@ -85,7 +106,9 @@ function App() {
 					<List
 						items={lists}
 						onRemoveList={onRemoveList}
-						onClickItem={item => setactiveItem(item)}
+						onClickItem={list => {
+							history.push(`/lists/${list.id}`);
+						}}
 						activeItem={activeItem}
 						isRemovable
 					/>
@@ -96,13 +119,26 @@ function App() {
 				<AddListButton onAddNewList={onAddNewList} colors={colors} />
 			</div>
 			<div className='todo__tasks'>
-				{lists && activeItem && (
-					<Tasks
-						list={activeItem}
-						onAddNewTask={onAddNewTask}
-						onEditTitle={onEditListTitle}
-					/>
-				)}
+				<Route exact path='/'>
+					{lists &&
+						lists.map(list => (
+							<Tasks
+								key={list.id}
+								list={list}
+								onAddNewTask={onAddNewTask}
+								onEditTitle={onEditListTitle}
+							/>
+						))}
+				</Route>
+				<Route path='/lists/:id'>
+					{lists && activeItem && (
+						<Tasks
+							list={activeItem}
+							onAddNewTask={onAddNewTask}
+							onEditTitle={onEditListTitle}
+						/>
+					)}
+				</Route>
 			</div>
 		</div>
 	);

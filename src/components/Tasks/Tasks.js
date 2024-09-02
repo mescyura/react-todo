@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import Service from '../../services/Service';
 
+import Task from './Task';
 import AddTaskForm from './AddTaskForm';
 
 import './Tasks.scss';
@@ -46,33 +47,9 @@ function Tasks({ list, onEditTitle, onAddNewTask }) {
 				{!list.tasks.length && (
 					<h1 className='tasks__sub-title'>Таски відсутні</h1>
 				)}
-				{list.tasks.map((task, index) => {
-					return (
-						<div key={task.id} className='tasks__items-item'>
-							<div className='checkbox'>
-								<input id={'task-' + task.id} type='checkbox' />
-								<label htmlFor={'task-' + task.id}>
-									<svg
-										width='11'
-										height='8'
-										viewBox='0 0 11 8'
-										fill='none'
-										xmlns='http://www.w3.org/2000/svg'
-									>
-										<path
-											d='M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001'
-											stroke='transparent'
-											strokeWidth='1.5'
-											strokeLinecap='round'
-											strokeLinejoin='round'
-										/>
-									</svg>
-								</label>
-							</div>
-							<input readOnly value={task.text} />
-						</div>
-					);
-				})}
+				{list.tasks.map((task, index) => (
+					<Task key={task.id} task={task} />
+				))}
 				<AddTaskForm onAddNewTask={onAddNewTask} list={list} />
 			</div>
 		</div>
