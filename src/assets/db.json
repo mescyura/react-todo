@@ -9,49 +9,20 @@
       "id": 2,
       "name": "Frontendd",
       "colorId": 4
-    },
-    {
-      "id": 3,
-      "name": "Фільми і серіали",
-      "colorId": 3
-    },
-    {
-      "name": "Покупки",
-      "colorId": 6,
-      "id": 4
     }
   ],
   "tasks": [
     {
       "id": 1,
       "listId": 2,
-      "text": "Вивчити JavaScript",
-      "completed": true,
-      "name": "Покупки 1"
+      "text": "React",
+      "completed": false
     },
     {
       "id": 2,
       "listId": 2,
       "text": "Вивчити патерни проектування",
       "completed": false
-    },
-    {
-      "id": 3,
-      "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect і тд)",
-      "completed": true
-    },
-    {
-      "id": 4,
-      "listId": 2,
-      "text": "Redux (redux-observable, redux-saga)",
-      "completed": false
-    },
-    {
-      "listId": 1,
-      "text": "Хліб",
-      "completed": false,
-      "id": 6
     },
     {
       "listId": 1,
@@ -62,32 +33,20 @@
     {
       "listId": 1,
       "text": "Пиво",
-      "completed": true,
+      "completed": false,
       "id": 8
     },
     {
       "listId": 1,
       "text": "Корм для котів",
-      "completed": false,
+      "completed": true,
       "id": 9
     },
     {
-      "listId": 3,
-      "text": "Серіал fallout",
+      "listId": 1,
+      "text": "Молоко",
       "completed": false,
       "id": 10
-    },
-    {
-      "listId": 3,
-      "text": "breaking bad",
-      "completed": false,
-      "id": 11
-    },
-    {
-      "listId": 4,
-      "text": "масло",
-      "completed": false,
-      "id": 12
     }
   ],
   "colors": [

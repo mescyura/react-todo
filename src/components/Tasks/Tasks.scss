@@ -60,6 +60,11 @@
 			font-size: 16px;
 		}
 
+		.complete {
+			text-decoration: line-through;
+			color: #9d9d9d;
+		}
+
 		&-edit,
 		&-delete {
 			cursor: pointer;

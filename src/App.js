@@ -26,43 +26,21 @@ function App() {
 		});
 	}, []);
 
-	// useEffect(() => {
-	// 	const listId = history.location.pathname.split('lists/')[1];
-	// 	console.log(history.location.pathname);
-
-	// 	if (lists) {
-	// 		const list = lists.find(list => list.id === Number(listId));
-	// 		setActiveItem(list);
-	// 	}
-	// }, [lists, history.location.pathname]);
-
 	useEffect(() => {
 		return history.listen(location => {
+			console.log(history.location.pathname);
 			const listId = history.location.pathname.split('lists/')[1];
 			if (lists) {
+				console.log(lists);
 				const list = lists.find(list => list.id === Number(listId));
 				setActiveItem(list);
 			}
 		});
 	}, [lists, history]);
 
+	// LISTS METHODS
 	const onAddNewList = newList => {
 		const updatedList = [...lists, newList];
-		setLists(updatedList);
-	};
-
-	const onRemoveList = id => {
-		const updatedList = lists.filter(item => item.id !== id);
-		setLists(updatedList);
-	};
-
-	const onAddNewTask = (listId, newTask) => {
-		const updatedList = lists.map(item => {
-			if (item.id === listId) {
-				item.tasks = [...item.tasks, newTask];
-			}
-			return item;
-		});
 		setLists(updatedList);
 	};
 
@@ -76,6 +54,79 @@ function App() {
 		setLists(updatedList);
 	};
 
+	const onRemoveList = list => {
+		if (window.confirm('Видалити список?')) {
+			Service.removeList(list.id).then(() => {
+				const updatedList = lists.filter(item => item.id !== list.id);
+				setLists(updatedList);
+			});
+		}
+	};
+
+	// TASKS METHODS
+	const onAddNewTask = (listId, newTask) => {
+		const updatedList = lists.map(item => {
+			if (item.id === listId) {
+				item.tasks = [...item.tasks, newTask];
+			}
+			return item;
+		});
+		setLists(updatedList);
+	};
+
+	const onEditTask = (listId, taskId, newText) => {
+		const newList = lists.map(list => {
+			if (list.id === listId) {
+				list.tasks = list.tasks.map(task => {
+					if (task.id === taskId) {
+						task.text = newText;
+					}
+					return task;
+				});
+			}
+			return list;
+		});
+		setLists(newList);
+	};
+
+	const onCompleteTask = (listId, taskId, completed) => {
+		const newList = lists.map(list => {
+			if (list.id === listId) {
+				list.tasks = list.tasks.map(task => {
+					if (task.id === taskId) {
+						task.completed = completed;
+					}
+					return task;
+				});
+			}
+			return list;
+		});
+		setLists(newList);
+		Service.editTask(taskId, {
+			completed,
+		}).catch(() => {
+			alert('Не вдалось позначити виконаним таск');
+		});
+	};
+
+	const onRemoveTask = (listId, taskId) => {
+		if (window.confirm('Видалити таску?')) {
+			Service.removeTask(taskId)
+				.then(() => {
+					const newList = lists.map(item => {
+						if (item.id === listId) {
+							item.tasks = item.tasks.filter(task => task.id !== taskId);
+						}
+						return item;
+					});
+					setLists(newList);
+				})
+				.catch(() => {
+					alert('Не вдалося видалити таску');
+				});
+		}
+	};
+
 	return (
 		<div className='todo'>
 			<div className='todo__sidebar'>
@@ -83,7 +134,7 @@ function App() {
 					onClickItem={list => history.push(`/`)}
 					items={[
 						{
-							// active: true,
+							active: !activeItem,
 							icon: (
 								<svg
 									width='18'
@@ -126,7 +177,10 @@ function App() {
 								key={list.id}
 								list={list}
 								onAddNewTask={onAddNewTask}
-								onEditTitle={onEditListTitle}
+								onEditListTitle={onEditListTitle}
+								onRemoveTask={onRemoveTask}
+								onEditTask={onEditTask}
+								onCompleteTask={onCompleteTask}
 							/>
 						))}
 				</Route>
@@ -135,7 +189,10 @@ function App() {
 						<Tasks
 							list={activeItem}
 							onAddNewTask={onAddNewTask}
-							onEditTitle={onEditListTitle}
+							onEditListTitle={onEditListTitle}
+							onRemoveTask={onRemoveTask}
+							onEditTask={onEditTask}
+							onCompleteTask={onCompleteTask}
 						/>
 					)}
 				</Route>

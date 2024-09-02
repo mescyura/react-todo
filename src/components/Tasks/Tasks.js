@@ -9,11 +9,18 @@ import AddTaskForm from './AddTaskForm';
 import './Tasks.scss';
 import '../../colors.scss';
 
-function Tasks({ list, onEditTitle, onAddNewTask }) {
-	const editTitle = () => {
+function Tasks({
+	list,
+	onEditListTitle,
+	onAddNewTask,
+	onEditTask,
+	onRemoveTask,
+	onCompleteTask,
+}) {
+	const editListTitle = () => {
 		const newTitle = window.prompt('Ведіть нову назву списку задач', list.name);
 		if (newTitle) {
-			onEditTitle(list.id, newTitle);
+			onEditListTitle(list.id, newTitle);
 			Service.editListTitle(list.id, {
 				name: newTitle,
 			}).catch(() => alert('Не вдалося змінити назву списку'));
@@ -29,7 +36,7 @@ function Tasks({ list, onEditTitle, onAddNewTask }) {
 			>
 				{list.name}
 				<svg
-					onClick={editTitle}
+					onClick={editListTitle}
 					className='tasks__title-edit'
 					width='15'
 					height='15'
@@ -47,10 +54,19 @@ function Tasks({ list, onEditTitle, onAddNewTask }) {
 				{!list.tasks.length && (
 					<h1 className='tasks__sub-title'>Таски відсутні</h1>
 				)}
-				{list.tasks.map((task, index) => (
-					<Task key={task.id} task={task} />
-				))}
-				<AddTaskForm onAddNewTask={onAddNewTask} list={list} />
+				{list.tasks &&
+					list.tasks.map((task, index) => (
+						<Task
+							key={task.id}
+							task={task}
+							list={list}
+							onRemoveTask={onRemoveTask}
+							onEditTask={onEditTask}
+							onCompleteTask={onCompleteTask}
+							{...task}
+						/>
+					))}
+				<AddTaskForm key={list.id} onAddNewTask={onAddNewTask} list={list} />
 			</div>
 		</div>
 	);

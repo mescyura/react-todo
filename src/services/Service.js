@@ -30,6 +30,14 @@ class Service {
 	addTask(task) {
 		return axios.post(TASK_URL, task);
 	}
+
+	editTask(id, task) {
+		return axios.patch(TASK_URL + '/' + id, task);
+	}
+
+	removeTask(id) {
+		return axios.delete(TASK_URL + '/' + id);
+	}
 }
 
 export default new Service();

@@ -1,13 +1,43 @@
 import React from 'react';
+import classNames from 'classnames';
+
+import Service from '../../services/Service';
 
 import './Tasks.scss';
 
-function Task({ task }) {
+function Task({
+	id,
+	text,
+	completed,
+	list,
+	onEditTask,
+	onRemoveTask,
+	onCompleteTask,
+}) {
+	const onChangeCheckbox = e => {
+		onCompleteTask(list.id, id, e.target.checked);
+	};
+
+	const editTask = () => {
+		const newTaskText = window.prompt('Ведіть нову назву таску', text);
+		if (newTaskText) {
+			onEditTask(list.id, id, newTaskText);
+			Service.editTask(id, {
+				text: newTaskText,
+			}).catch(() => alert('Не вдалося змінити назву таску'));
+		}
+	};
+
 	return (
 		<div className='tasks__items-item'>
 			<div className='checkbox'>
-				<input id={'task-' + task.id} type='checkbox' />
-				<label htmlFor={'task-' + task.id}>
+				<input
+					onChange={onChangeCheckbox}
+					id={'task-' + id}
+					type='checkbox'
+					checked={completed}
+				/>
+				<label htmlFor={'task-' + id}>
 					<svg
 						width='11'
 						height='8'
@@ -25,8 +55,15 @@ function Task({ task }) {
 					</svg>
 				</label>
 			</div>
-			<p>{task.text}</p>
+			<p
+				className={classNames({
+					complete: completed,
+				})}
+			>
+				{text}
+			</p>
 			<svg
+				onClick={editTask}
 				className='tasks__items-item-edit'
 				width='12'
 				height='12'
@@ -41,6 +78,7 @@ function Task({ task }) {
 			</svg>
 
 			<svg
+				onClick={() => onRemoveTask(list.id, id)}
 				className='tasks__items-item-delete'
 				width='12'
 				height='12'

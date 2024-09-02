@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Service from '../../services/Service';
-
 import classNames from 'classnames';
 import Badge from '../Badge/Badge';
 
@@ -15,14 +13,6 @@ function List({
 	onRemoveList,
 	isRemovable,
 }) {
-	const RemoveList = item => {
-		if (window.confirm('Видалити список?')) {
-			Service.removeList(item.id).then(() => {
-				onRemoveList(item.id);
-			});
-		}
-	};
-
 	return (
 		<ul onClick={onClick} className='menu-list'>
 			{items.map((item, index) => (
@@ -46,7 +36,7 @@ function List({
 					</span>
 					{isRemovable && (
 						<svg
-							onClick={() => RemoveList(item)}
+							onClick={() => onRemoveList(item)}
 							className='menu-list__remove-icon'
 							width='10'
 							height='10'
