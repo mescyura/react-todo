@@ -45,7 +45,7 @@
     {
       "listId": 1,
       "text": "Молоко",
-      "completed": false,
+      "completed": true,
       "id": 10
     }
   ],
